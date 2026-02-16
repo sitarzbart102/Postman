@@ -1,0 +1,529 @@
+{
+  "info": {
+    "_postman_id": "8f3afd2b-8452-4ecf-a363-4676b0828814",
+    "name": "Restful-booker",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "11545033"
+  },
+  "item": [
+    {
+      "name": "All books IDs",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "const response = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Response is an array\", () => {\r",
+              "    pm.expect(response).to.be.an('array');\r",
+              "})\r",
+              "\r",
+              "pm.test(\"Each item has bookingid\", () => {\r",
+              "    response.forEach(item => {\r",
+              "        pm.expect(item).to.have.property('bookingid');\r",
+              "    })\r",
+              "})    "
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}",
+          "host": [
+            "{{URL}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Single ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () =>  {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});    \r",
+              "\r",
+              "\r",
+              "const response = pm.response.json();\r",
+              "console.log(response.firstname);\r",
+              "\r",
+              "\r",
+              "pm.test(\"First name should be Susan\", () => {\r",
+              "    pm.expect(response.firstname).to.eql(\"Susan\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Deposit paid is boolena\", () => {\r",
+              "    pm.expect(response.depositpaid).to.be.a('boolean');\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/:Id",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            ":Id"
+          ],
+          "variable": [
+            {
+              "key": "Id",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Filter",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();\r",
+              "\r",
+              "\r",
+              "console.log(pm.response.text())\r",
+              "console.log(response[0].bookingid);\r",
+              "\r",
+              "const bookid = response[0].bookingid\r",
+              "\r",
+              "pm.test(\"Id should be 2\", () => {\r",
+              "    pm.expect(bookid).to.eql(2);\r",
+              "})\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}?firstname=Sally&lastname=Smith",
+          "host": [
+            "{{URL}}"
+          ],
+          "query": [
+            {
+              "key": "firstname",
+              "value": "Sally"
+            },
+            {
+              "key": "lastname",
+              "value": "Smith"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Filter Checkin/out",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();\r",
+              "\r",
+              "\r",
+              "console.log(pm.response.text())\r",
+              "console.log(response[0].bookingid);\r",
+              "\r",
+              "const bookid = response[0].bookingid\r",
+              "\r",
+              "pm.test(\"Id should be 1\", () => {\r",
+              "    pm.expect(bookid).to.eql(1);\r",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}?checkin=2024-07-19&checkout=2026-01-05",
+          "host": [
+            "{{URL}}"
+          ],
+          "query": [
+            {
+              "key": "firstname",
+              "value": "Mark",
+              "disabled": true
+            },
+            {
+              "key": "lastname",
+              "value": "Jackson",
+              "disabled": true
+            },
+            {
+              "key": "checkin",
+              "value": "2024-07-19"
+            },
+            {
+              "key": "checkout",
+              "value": "2026-01-05",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Booking",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json(); \r",
+              "\r",
+              "pm.test(\"Response is an object\", () => {\r",
+              "    pm.expect(response).to.be.an('object');\r",
+              "})\r",
+              "\r",
+              "pm.test(\"Array has property: additionalneeds\", () => {    \r",
+              "    pm.expect(response.booking).to.have.property('additionalneeds');\r",
+              "    })\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstname\" : \"Bart\",\r\n    \"lastname\" : \"Tester\",\r\n    \"totalprice\" : 555,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2026-01-01\",\r\n        \"checkout\" : \"2026-02-01\"\r\n    },\r\n    \"additionalneeds\" : \"alkohol657567\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}",
+          "host": [
+            "{{URL}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Token is present in the response\", function () {\r",
+              "    pm.expect(response).to.have.property(\"token\")\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}"
+        },
+        "url": {
+          "raw": "https://restful-booker.herokuapp.com/auth",
+          "protocol": "https",
+          "host": [
+            "restful-booker",
+            "herokuapp",
+            "com"
+          ],
+          "path": [
+            "auth"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update booking",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set(\"random_name\", pm.variables.replaceIn('{{$randomFirstName}}'))"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const response = pm.response.json();    \r",
+              "const random_name = pm.collectionVariables.get(\"random_name\"); \r",
+              "\r",
+              "pm.test(`Client name: ${random_name}`, () => {\r",
+              "    pm.expect(response.firstname).to.eql(random_name)\r",
+              "});\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Cookie",
+            "value": "token={{token}}",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstname\" : \"{{random_name}}\",\r\n    \"lastname\" : \"Sit\",\r\n    \"totalprice\" : 555,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2026-01-01\",\r\n        \"checkout\" : \"2026-02-01\"\r\n    },\r\n    \"additionalneeds\" : \"alkohol ananas\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/:Id",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            ":Id"
+          ],
+          "variable": [
+            {
+              "key": "Id",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Partial update",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "token={{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstname\" : \"Bart456456\",\r\n    \"lastname\" : \"Test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/:Id",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            ":Id"
+          ],
+          "variable": [
+            {
+              "key": "Id",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Booking deleted\", () => {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "token={{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}/:Id",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            ":Id"
+          ],
+          "variable": [
+            {
+              "key": "Id",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "password",
+        "value": "{{pass}}",
+        "type": "string"
+      },
+      {
+        "key": "username",
+        "value": "admin",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "random_name",
+      "value": ""
+    }
+  ]
+}
